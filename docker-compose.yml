@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   mysql:
@@ -12,11 +12,14 @@ services:
       - MYSQL_DATABASE=osticket
       - MYSQL_USER=osticket
       - MYSQL_PASSWORD=secret
-  
+    restart: always
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--default-authentication-plugin=mysql_native_password']
+
   osticket:
-    image: filug/docker-osticket
+    build: .
     container_name: osticket
     hostname: osticket
+    restart: always
     depends_on:
       - mysql
     links:
